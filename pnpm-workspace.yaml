@@ -1,0 +1,8 @@
+packages:
+    - auth
+    - contracts
+
+# Only these dependencies may run install scripts; telemetry and optional native addons are off.
+allowBuilds:
+    "@swc/core": true
+    esbuild: true

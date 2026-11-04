@@ -1,0 +1,31 @@
+{
+    "name": "nick-lukashik-packages",
+    "private": true,
+    "type": "module",
+    "engines": {
+        "node": ">=26.13.0",
+        "pnpm": ">=12.16.1"
+    },
+    "packageManager": "pnpm@12.16.1",
+    "scripts": {
+        "build": "pnpm -r build",
+        "typecheck": "pnpm -r typecheck",
+        "lint": "biome check .",
+        "format": "biome check --write .",
+        "test": "vitest run",
+        "verify": "pnpm lint && pnpm typecheck && pnpm build && pnpm test"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.6.4",
+        "@nestjs/common": "12.3.2",
+        "@nestjs/core": "12.3.2",
+        "@swc/core": "1.16.21",
+        "@types/node": "26.6.6",
+        "reflect-metadata": "0.2.2",
+        "rxjs": "7.8.2",
+        "typescript": "7.0.2",
+        "unplugin-swc": "2.0.0",
+        "vitest": "5.0.5",
+        "zod": "4.6.7"
+    }
+}

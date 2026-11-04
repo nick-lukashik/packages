@@ -1,0 +1,31 @@
+{
+    "name": "@nick-lukashik/contracts",
+    "version": "0.1.0",
+    "description": "Event payloads and shared value types of the nick-lukashik services",
+    "type": "module",
+    "license": "UNLICENSED",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nick-lukashik/packages.git",
+        "directory": "contracts"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.json",
+        "typecheck": "tsc -p tsconfig.json --noEmit"
+    },
+    "peerDependencies": {
+        "zod": "^4.6.0"
+    }
+}
