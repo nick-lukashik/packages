@@ -1,10 +1,12 @@
-import { type DynamicModule, Global, Module } from '@nestjs/common'
+import { type DynamicModule, Global, Module, type ModuleMetadata } from '@nestjs/common'
 import { createAccessTokenVerifier, type VerifierOptions } from '../verifier.js'
 import { AccessTokenGuard } from './access-token.guard.js'
 import { InternalTokenGuard } from './internal-token.guard.js'
 import { ACCESS_TOKEN_VERIFIER, INTERNAL_API_TOKEN } from './tokens.js'
 
 type Factory<T> = {
+    /** Modules whose providers the factory injects (e.g. id-api's own signing keys). */
+    imports?: ModuleMetadata['imports']
     inject?: (string | symbol | (abstract new (...args: never[]) => unknown))[]
     useFactory: (...args: never[]) => T | Promise<T>
 }
@@ -16,6 +18,7 @@ export class AuthModule {
     static forRootAsync(options: Factory<VerifierOptions>): DynamicModule {
         return {
             module: AuthModule,
+            imports: options.imports ?? [],
             providers: [
                 {
                     provide: ACCESS_TOKEN_VERIFIER,
@@ -40,6 +43,7 @@ export class InternalAuthModule {
     static forRootAsync(options: Factory<string>): DynamicModule {
         return {
             module: InternalAuthModule,
+            imports: options.imports ?? [],
             providers: [
                 {
                     provide: INTERNAL_API_TOKEN,
