@@ -76,11 +76,12 @@ export const walletCreditedV1 = contract(
 )
 
 /**
- * The access a subscription gives changed (pay-api, once subscriptions are
- * sold). id-api keeps the role `role` for the user until `accessUntil`, or
- * takes it away when that is null (refunded, ended). A one-off coin pack
- * never sends this. `version` grows with every change of one subscription:
- * an older event never overrides a newer one.
+ * What a subscription gives changed (pay-api, once subscriptions are sold):
+ * the plan `plan` of the service `service` ("roulette" + "vip") for the user,
+ * until `accessUntil`, or nothing from now on when that is null (refunded,
+ * ended). A person may hold any number of subscriptions, one grant each. A
+ * one-off coin pack never sends this. `version` grows with every change of
+ * one subscription: an older event never overrides a newer one.
  */
 export const subscriptionChangedV1 = contract(
     'pay.subscription.changed.v1',
@@ -88,10 +89,8 @@ export const subscriptionChangedV1 = contract(
     z.object({
         subscriptionId: z.uuid(),
         userId: z.uuid(),
-        plan: z.string().min(1).max(64),
-        role: z.enum([
-            'subscriber',
-        ]),
+        service: z.string().regex(/^[a-z][a-z0-9-]{1,30}$/),
+        plan: z.string().regex(/^[a-z][a-z0-9-]{1,30}$/),
         accessUntil: z.iso.datetime().nullable(),
         version: z.number().int().positive(),
         changedAt: z.iso.datetime(),

@@ -41,6 +41,7 @@ type Overrides = {
     exp?: number
     sub?: string
     roles?: unknown
+    grants?: unknown
 }
 
 async function token(overrides: Overrides = {}) {
@@ -50,6 +51,11 @@ async function token(overrides: Overrides = {}) {
         roles: overrides.roles ?? [
             'support',
         ],
+        ...(overrides.grants === undefined
+            ? {}
+            : {
+                  grants: overrides.grants,
+              }),
         av: 3,
     })
         .setProtectedHeader({
@@ -74,6 +80,23 @@ describe('createAccessTokenVerifier', () => {
         expect(claims.accessVersion).toBe(3)
         expect(claims.permissions.has('sessions.revoke')).toBe(true)
         expect(claims.permissions.has('wallet.adjust')).toBe(false)
+        // A token from before grants existed has none.
+        expect(claims.grants).toEqual([])
+    })
+
+    it('reads the paid plans in force', async () => {
+        const claims = await verifier()(
+            await token({
+                grants: [
+                    'roulette:vip',
+                    'edu:pro',
+                ],
+            }),
+        )
+        expect(claims.grants).toEqual([
+            'roulette:vip',
+            'edu:pro',
+        ])
     })
 
     it.each([
@@ -112,6 +135,14 @@ describe('createAccessTokenVerifier', () => {
             {
                 roles: [
                     1,
+                ],
+            },
+        ],
+        [
+            'grants that are not service:plan',
+            {
+                grants: [
+                    'vip',
                 ],
             },
         ],

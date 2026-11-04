@@ -1,12 +1,8 @@
 /**
- * Roles live in id-api (role_bindings); what a role may do is this one table,
- * shared by every service. An unknown role grants nothing, an unknown
- * permission is never granted.
- *
- * Two kinds of roles. Staff roles (owner, support) are granted by hand and
- * never bought. A paid role (subscriber) comes only from a subscription,
- * for the paid period (event `pay.subscription.changed.v1`); a one-off coin
- * pack never gives a role.
+ * Staff roles live in id-api (role_bindings) and are granted by hand; what a
+ * role may do is this one table, shared by every service. An unknown role
+ * grants nothing, an unknown permission is never granted. Money never buys a
+ * role: what a subscription pays for is a grant (grants.ts).
  */
 export const permissions = [
     'users.read',
@@ -15,25 +11,14 @@ export const permissions = [
     'wallet.read',
     'wallet.adjust',
     'payments.read',
-    /** What a paid plan unlocks; each service decides what that is. */
-    'premium.use',
 ] as const
 export type Permission = (typeof permissions)[number]
 
-export const staffRoles = [
+export const roles = [
     'owner',
     'support',
 ] as const
-export const paidRoles = [
-    'subscriber',
-] as const
-export const roles = [
-    ...staffRoles,
-    ...paidRoles,
-] as const
 export type Role = (typeof roles)[number]
-export type StaffRole = (typeof staffRoles)[number]
-export type PaidRole = (typeof paidRoles)[number]
 
 export const rolePermissions: Record<Role, readonly Permission[]> = {
     owner: permissions,
@@ -42,17 +27,10 @@ export const rolePermissions: Record<Role, readonly Permission[]> = {
         'sessions.revoke',
         'notifications.read',
     ],
-    subscriber: [
-        'premium.use',
-    ],
 }
 
 export function isRole(value: unknown): value is Role {
     return typeof value === 'string' && (roles as readonly string[]).includes(value)
-}
-
-export function isStaffRole(value: unknown): value is StaffRole {
-    return typeof value === 'string' && (staffRoles as readonly string[]).includes(value)
 }
 
 /** Every permission the given roles carry; unknown roles add nothing. */

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { bearerToken, secretMatches } from './bearer.js'
-import { isStaffRole, permissions, permissionsOf } from './permissions.js'
+import { grantKey, hasGrant, isGrant } from './grants.js'
+import { permissions, permissionsOf } from './permissions.js'
 
 describe('permissionsOf', () => {
     it('gives the owner every permission', () => {
@@ -11,18 +12,6 @@ describe('permissionsOf', () => {
         ]).toEqual([
             ...permissions,
         ])
-    })
-
-    it('gives a subscriber only what a paid plan unlocks', () => {
-        expect([
-            ...permissionsOf([
-                'subscriber',
-            ]),
-        ]).toEqual([
-            'premium.use',
-        ])
-        expect(isStaffRole('subscriber')).toBe(false)
-        expect(isStaffRole('support')).toBe(true)
     })
 
     it('ignores unknown roles', () => {
@@ -52,5 +41,35 @@ describe('bearer helpers', () => {
         expect(secretMatches('s'.repeat(39), 's'.repeat(40))).toBe(false)
         expect(secretMatches(undefined, 's'.repeat(40))).toBe(false)
         expect(secretMatches('', '')).toBe(false)
+    })
+})
+
+describe('grants', () => {
+    it('names a plan of a service', () => {
+        expect(grantKey('roulette', 'vip')).toBe('roulette:vip')
+        expect(isGrant('edu:pro')).toBe(true)
+        for (const bad of [
+            'roulette',
+            'roulette:',
+            'Roulette:vip',
+            'a:b:c',
+            7,
+        ]) {
+            expect(isGrant(bad)).toBe(false)
+        }
+        expect(() => grantKey('roulette', 'VIP')).toThrow()
+    })
+
+    it('answers for one plan or any plan of a service', () => {
+        const claims = {
+            grants: [
+                'roulette:vip',
+                'edu:pro',
+            ],
+        }
+        expect(hasGrant(claims, 'roulette', 'vip')).toBe(true)
+        expect(hasGrant(claims, 'roulette', 'basic')).toBe(false)
+        expect(hasGrant(claims, 'edu')).toBe(true)
+        expect(hasGrant(claims, 'battleship')).toBe(false)
     })
 })

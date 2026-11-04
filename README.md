@@ -39,15 +39,27 @@ grant(...) { ... }
 
 Errors: no token or a bad one → 401, a missing permission → 403, JWKS unreachable → 503. Each service's error filter maps them to its error codes.
 
-## Before the first publish
+## Releasing
 
-Nothing is published yet. Until then the services under `apps/` depend on the local folders (`"@nick-lukashik/auth": "file:../../packages/auth"`). When the repo is on GitHub:
+1. Bump `version` in the packages that changed (semver: a breaking change is a new major) and merge.
+2. Tag the merge commit `v<version>` and push the tag: `ci` verifies and publishes every package with that version to GitHub Packages.
+3. Renovate opens the update in each service.
 
-1. Tag and publish `0.1.0` (CI: `pnpm publish -r` with `GITHUB_TOKEN`, `packages: write`).
-2. In each service, replace the `file:` dependency with `"0.1.0"` and add `.npmrc`:
+## Installing
 
-   ```ini
-   @nick-lukashik:registry=https://npm.pkg.github.com
-   ```
+A service has `.npmrc` with the scope only:
 
-3. Give `build.yml` the registry token input (planned in `docs/templates.md`). GitHub Packages needs a token even to install a public package.
+```ini
+@nick-lukashik:registry=https://npm.pkg.github.com
+```
+
+GitHub Packages needs a token even for a public package, and pnpm ignores credentials with variables in a repository's `.npmrc`, so the token is user-level:
+
+- CI: `build.yml` writes it from the run's `GITHUB_TOKEN` (`packages: read`) and passes it to the image build as the secret `npmrc`.
+- Docker: the `pnpm install` steps mount the secret `npmrc` at `/root/.npmrc`.
+- A Mac: once, with a token that has `read:packages`:
+
+  ```bash
+  gh auth refresh -h github.com -s read:packages
+  pnpm config set //npm.pkg.github.com/:_authToken "$(gh auth token)"
+  ```

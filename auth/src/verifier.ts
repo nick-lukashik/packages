@@ -1,6 +1,7 @@
 import { createRemoteJWKSet, errors, type JWTPayload, type JWTVerifyGetKey, jwtVerify } from 'jose'
 import { ACCESS_TOKEN_ALGORITHM, ACCESS_TOKEN_TYPE, type AccessClaims } from './claims.js'
 import { InvalidTokenError } from './errors.js'
+import { isGrant } from './grants.js'
 import { permissionsOf } from './permissions.js'
 
 export type VerifierOptions = {
@@ -72,19 +73,29 @@ function isFetchFailure(error: unknown) {
 }
 
 function toClaims(payload: JWTPayload): AccessClaims {
-    const { sub, sid, roles, av, exp } = payload as JWTPayload & {
+    const {
+        sub,
+        sid,
+        roles,
+        grants = [],
+        av,
+        exp,
+    } = payload as JWTPayload & {
         sid?: unknown
         roles?: unknown
+        grants?: unknown
         av?: unknown
     }
     if (typeof sub !== 'string' || !UUID.test(sub)) throw new InvalidTokenError('sub')
     if (typeof sid !== 'string' || !UUID.test(sid)) throw new InvalidTokenError('sid')
     if (!Array.isArray(roles) || !roles.every(role => typeof role === 'string')) throw new InvalidTokenError('roles')
+    if (!Array.isArray(grants) || !grants.every(isGrant)) throw new InvalidTokenError('grants')
     if (typeof av !== 'number' || !Number.isInteger(av) || av < 0) throw new InvalidTokenError('av')
     return {
         userId: sub,
         sessionId: sid,
         roles,
+        grants,
         accessVersion: av,
         permissions: permissionsOf(roles),
         expiresAt: new Date((exp ?? 0) * 1000),

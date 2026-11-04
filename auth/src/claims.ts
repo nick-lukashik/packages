@@ -10,7 +10,9 @@ export type AccessClaims = {
     userId: string
     sessionId: string
     roles: readonly string[]
-    /** Bumped by id-api when roles or the account status change. */
+    /** Paid plans in force, `service:plan` (grants.ts). */
+    grants: readonly string[]
+    /** Bumped by id-api when roles, grants or the account status change. */
     accessVersion: number
     permissions: ReadonlySet<Permission>
     expiresAt: Date

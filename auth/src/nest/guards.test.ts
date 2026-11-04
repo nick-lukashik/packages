@@ -22,6 +22,7 @@ const claims = (roles: string[]): AccessClaims => ({
     userId: randomUUID(),
     sessionId: randomUUID(),
     roles,
+    grants: [],
     accessVersion: 0,
     permissions: permissionsOf(roles),
     expiresAt: new Date(Date.now() + 60_000),
