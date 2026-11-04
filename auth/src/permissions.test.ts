@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { bearerToken, secretMatches } from './bearer.js'
-import { permissions, permissionsOf } from './permissions.js'
+import { isStaffRole, permissions, permissionsOf } from './permissions.js'
 
 describe('permissionsOf', () => {
     it('gives the owner every permission', () => {
@@ -11,6 +11,18 @@ describe('permissionsOf', () => {
         ]).toEqual([
             ...permissions,
         ])
+    })
+
+    it('gives a subscriber only what a paid plan unlocks', () => {
+        expect([
+            ...permissionsOf([
+                'subscriber',
+            ]),
+        ]).toEqual([
+            'premium.use',
+        ])
+        expect(isStaffRole('subscriber')).toBe(false)
+        expect(isStaffRole('support')).toBe(true)
     })
 
     it('ignores unknown roles', () => {

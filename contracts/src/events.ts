@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { currencySchema, grmAmountSchema, grmBalanceSchema, localeSchema, moneySchema, unitSchema } from './values.js'
+import { coinAmountSchema, coinBalanceSchema, currencySchema, localeSchema, moneySchema, unitSchema } from './values.js'
 
 /**
  * Event contracts between the services: type, producer (the exchange is
@@ -37,7 +37,7 @@ export const userRegisteredV1 = contract(
 
 /**
  * A payment is confirmed by its provider and matches the order snapshot
- * (pay-api). The wallet credits `grm` once per paymentId.
+ * (pay-api). The wallet credits `coins` once per paymentId.
  */
 export const paymentSucceededV1 = contract(
     'pay.payment.succeeded.v1',
@@ -46,7 +46,7 @@ export const paymentSucceededV1 = contract(
         paymentId: z.uuid(),
         userId: z.uuid(),
         productKey: z.string().min(1).max(64),
-        grm: grmAmountSchema,
+        coins: coinAmountSchema,
         amount: moneySchema,
         currency: currencySchema,
         provider: z.string().min(1).max(32),
@@ -54,7 +54,7 @@ export const paymentSucceededV1 = contract(
     }),
 )
 
-/** GRM were credited to a wallet (wallet-api). */
+/** Coins were credited to a wallet (wallet-api). */
 export const walletCreditedV1 = contract(
     'wallet.credit.posted.v1',
     'wallet',
@@ -62,8 +62,8 @@ export const walletCreditedV1 = contract(
         txId: z.uuid(),
         userId: z.uuid(),
         unit: unitSchema,
-        amount: grmAmountSchema,
-        balanceAfter: grmBalanceSchema,
+        amount: coinAmountSchema,
+        balanceAfter: coinBalanceSchema,
         source: z.enum([
             'pay',
             'admin',
@@ -72,5 +72,28 @@ export const walletCreditedV1 = contract(
         ]),
         ref: z.string().min(1).max(209),
         createdAt: z.iso.datetime(),
+    }),
+)
+
+/**
+ * The access a subscription gives changed (pay-api, once subscriptions are
+ * sold). id-api keeps the role `role` for the user until `accessUntil`, or
+ * takes it away when that is null (refunded, ended). A one-off coin pack
+ * never sends this. `version` grows with every change of one subscription:
+ * an older event never overrides a newer one.
+ */
+export const subscriptionChangedV1 = contract(
+    'pay.subscription.changed.v1',
+    'pay',
+    z.object({
+        subscriptionId: z.uuid(),
+        userId: z.uuid(),
+        plan: z.string().min(1).max(64),
+        role: z.enum([
+            'subscriber',
+        ]),
+        accessUntil: z.iso.datetime().nullable(),
+        version: z.number().int().positive(),
+        changedAt: z.iso.datetime(),
     }),
 )

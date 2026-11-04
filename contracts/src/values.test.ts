@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { paymentSucceededV1 } from './events.js'
-import { grmAmountSchema, moneySchema } from './values.js'
+import { coinAmountSchema, moneySchema } from './values.js'
 
 describe('values', () => {
-    it('accepts whole positive GRM only', () => {
-        expect(grmAmountSchema.safeParse('1250').success).toBe(true)
+    it('accepts whole positive coins only', () => {
+        expect(coinAmountSchema.safeParse('1250').success).toBe(true)
         for (const bad of [
             '0',
             '-1',
@@ -12,7 +12,7 @@ describe('values', () => {
             '1.5',
             '1000000000000000',
         ]) {
-            expect(grmAmountSchema.safeParse(bad).success).toBe(false)
+            expect(coinAmountSchema.safeParse(bad).success).toBe(false)
         }
     })
 
@@ -25,10 +25,10 @@ describe('values', () => {
         const result = paymentSucceededV1.payload.safeParse({
             paymentId: '0196f3c4-5b1a-7c3d-8e9f-0a1b2c3d4e5f',
             userId: '0196f3c4-5b1a-7c3d-8e9f-0a1b2c3d4e60',
-            productKey: 'grm-500',
-            grm: '500',
-            amount: '449',
-            currency: 'RUB',
+            productKey: 'coins-550',
+            coins: '550',
+            amount: '5',
+            currency: 'USD',
             provider: 'fake',
             paidAt: new Date().toISOString(),
         })

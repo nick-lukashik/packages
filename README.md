@@ -5,7 +5,7 @@ Shared `@nick-lukashik/*` packages, published to GitHub Packages. A service depe
 | Package | What |
 |---|---|
 | [`@nick-lukashik/auth`](auth) | Verification of id-api access tokens (ES256, JWKS, `iss`, `aud`, `typ: at+jwt`), roles and permissions. Nest (`/nest`): `AuthModule`, `@Authenticated(...permissions)`, `@Caller()`, `InternalAuthModule` and `@Internal()` for in-cluster calls with a service token |
-| [`@nick-lukashik/contracts`](contracts) | Payloads of the events between services, and the values they share: locales, GRM amounts, currencies, money |
+| [`@nick-lukashik/contracts`](contracts) | Payloads of the events between services, and the values they share: locales, coin amounts, currencies, money |
 
 ## Commands
 
