@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { bearerToken, secretMatches } from './bearer.js'
 import { grantKey, hasGrant, isGrant } from './grants.js'
-import { permissions, permissionsOf } from './permissions.js'
+import { isRole, permissions, permissionsOf } from './permissions.js'
 
 describe('permissionsOf', () => {
     it('gives the owner every permission', () => {
@@ -12,6 +12,15 @@ describe('permissionsOf', () => {
         ]).toEqual([
             ...permissions,
         ])
+    })
+
+    it('knows tailor as a role that carries no staff permission', () => {
+        expect(isRole('tailor')).toBe(true)
+        expect(
+            permissionsOf([
+                'tailor',
+            ]).size,
+        ).toBe(0)
     })
 
     it('ignores unknown roles', () => {
