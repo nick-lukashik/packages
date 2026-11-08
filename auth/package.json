@@ -1,6 +1,6 @@
 {
     "name": "@nick-lukashik/auth",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Access tokens of id-api: verification through JWKS, permissions, Nest guards",
     "type": "module",
     "license": "UNLICENSED",

@@ -17,6 +17,8 @@ export type Permission = (typeof permissions)[number]
 export const roles = [
     'owner',
     'support',
+    // A product a person may use, checked by name: no staff permission.
+    'tailor',
 ] as const
 export type Role = (typeof roles)[number]
 
@@ -27,6 +29,7 @@ export const rolePermissions: Record<Role, readonly Permission[]> = {
         'sessions.revoke',
         'notifications.read',
     ],
+    tailor: [],
 }
 
 export function isRole(value: unknown): value is Role {
