@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
     "files": {
-        "includes": ["**", "!**/dist", "!**/coverage", "!**/*.md"]
+        "includes": ["**", "!**/dist", "!**/coverage", "!**/*.md", "!ui/demo/dist"]
     },
     "formatter": {
         "enabled": true,
@@ -26,6 +26,11 @@
             "attributePosition": "multiline",
             "expand": "always",
             "operatorLinebreak": "before"
+        }
+    },
+    "css": {
+        "parser": {
+            "tailwindDirectives": true
         }
     },
     "linter": {
@@ -82,5 +87,33 @@
                 "organizeImports": "on"
             }
         }
-    }
+    },
+    "overrides": [
+        {
+            "includes": ["ui/src/components/**", "ui/src/hooks/**", "ui/src/lib/highlighter.tsx"],
+            "linter": {
+                "rules": {
+                    "a11y": {
+                        "noNoninteractiveTabindex": "off",
+                        "noRedundantRoles": "off",
+                        "useFocusableInteractive": "off",
+                        "useKeyWithClickEvents": "off",
+                        "useSemanticElements": "off"
+                    },
+                    "correctness": {
+                        "noComponentHookFactories": "off",
+                        "useExhaustiveDependencies": "off"
+                    },
+                    "security": {
+                        "noDangerouslySetInnerHtml": "off"
+                    },
+                    "suspicious": {
+                        "noArrayIndexKey": "off",
+                        "noDocumentCookie": "off",
+                        "noDoubleEquals": "off"
+                    }
+                }
+            }
+        }
+    ]
 }

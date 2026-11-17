@@ -1,0 +1,129 @@
+/* The kit's own utilities and the motion they share. Imported by index.css. */
+
+/* Page width and side padding. */
+@utility wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--page-width);
+    padding-inline: 1.25rem;
+    @variant sm {
+        padding-inline: 2rem;
+    }
+}
+
+/* Big condensed caps: page and section titles. */
+@utility display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+}
+
+/* Small monospace caps: labels, breadcrumbs, meta lines, buttons. */
+@utility label {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+/* The green "live" dot. */
+@utility live-dot {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--signal);
+    @media (prefers-reduced-motion: no-preference) {
+        animation: nl-live 2.4s ease-in-out infinite;
+    }
+}
+
+/* A running line: put the items twice in a row inside it. */
+@utility ticker-track {
+    @media (prefers-reduced-motion: no-preference) {
+        animation: nl-ticker 40s linear infinite;
+    }
+}
+
+/* Dashes that run along the lines of a diagram (on an SVG group of strokes). */
+@utility flow {
+    stroke-dasharray: 4 6;
+    @media (prefers-reduced-motion: no-preference) {
+        animation: nl-flow 1.2s linear infinite;
+    }
+}
+
+/* Slides in as it scrolls into view, where the browser can tie an animation to scrolling. */
+@utility reveal {
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            animation: nl-reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 35%;
+        }
+    }
+}
+
+/* One letter of a floating wordmark. */
+@utility float-letter {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    will-change: transform;
+}
+
+@keyframes nl-live {
+    50% {
+        opacity: 0.45;
+    }
+}
+
+@keyframes nl-ticker {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes nl-flow {
+    to {
+        stroke-dashoffset: -20;
+    }
+}
+
+@keyframes nl-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+}
+
+/* The roulette between pages (src/motion/roulette.tsx). */
+.nl-roulette[data-state="out"] {
+    transform: translateY(-100%);
+    transition: transform 0.55s cubic-bezier(0.75, 0, 0.2, 1);
+}
+
+.nl-roulette-rail {
+    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.nl-roulette-marker::before,
+.nl-roulette-marker::after {
+    content: "";
+    position: absolute;
+    left: -7px;
+    border: 8px solid transparent;
+}
+
+.nl-roulette-marker::before {
+    top: 0;
+    border-top-color: var(--signal);
+}
+
+.nl-roulette-marker::after {
+    bottom: 0;
+    border-bottom-color: var(--signal);
+}

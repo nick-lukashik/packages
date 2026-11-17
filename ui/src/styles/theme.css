@@ -1,0 +1,93 @@
+/* Tailwind names for the tokens, the base layer and the kit's own utilities. Imported by index.css. */
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-soft: var(--soft);
+    --color-border: var(--border);
+    --color-line: var(--line);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-signal: var(--signal);
+    --color-destructive: var(--destructive);
+    --color-ok: var(--ok);
+    --color-warn: var(--warn);
+    --color-info: var(--info);
+    --color-ok-soft: var(--ok-soft);
+    --color-warn-soft: var(--warn-soft);
+    --color-danger-soft: var(--danger-soft);
+    --color-info-soft: var(--info-soft);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+    /* Square everywhere: every radius step is zero (rounded-full stays a circle). */
+    --radius-xs: 0rem;
+    --radius-sm: 0rem;
+    --radius-md: 0rem;
+    --radius-lg: 0rem;
+    --radius-xl: 0rem;
+    --radius-2xl: 0rem;
+    --radius-3xl: 0rem;
+    --radius-4xl: 0rem;
+    /* Flat: depth comes from lines, never from shadows. */
+    --shadow-2xs: 0 0 #0000;
+    --shadow-xs: 0 0 #0000;
+    --shadow-sm: 0 0 #0000;
+    --shadow-md: 0 0 #0000;
+    --shadow-lg: 0 0 #0000;
+    --shadow-xl: 0 0 #0000;
+    --shadow-2xl: 0 0 #0000;
+    --font-sans: var(--font-sans);
+    --font-mono: var(--font-sans);
+    --font-heading: var(--font-display);
+    --font-display: var(--font-display);
+}
+
+@layer base {
+    * {
+        border-color: var(--border);
+    }
+    html {
+        -webkit-text-size-adjust: 100%;
+        font-family: var(--font-sans);
+        background: var(--background);
+    }
+    body {
+        background: var(--background);
+        color: var(--foreground);
+        font-size: 0.875rem;
+        line-height: 1.625;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+    ::selection {
+        background: var(--foreground);
+        color: var(--background);
+    }
+    /* Plain links and other elements without their own focus style. */
+    :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+}

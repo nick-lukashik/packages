@@ -1,0 +1,13 @@
+/*
+ * @nick-lukashik/ui: import after Tailwind, in place of the shadcn palette, and
+ * let Tailwind see the kit's classes:
+ *
+ *   @import "tailwindcss";
+ *   @import "tw-animate-css";
+ *   @import "@nick-lukashik/ui/styles.css";
+ *   @source "../../node_modules/@nick-lukashik/ui/dist";
+ */
+@import "./shadcn.css";
+@import "./tokens.css";
+@import "./theme.css";
+@import "./utilities.css";
