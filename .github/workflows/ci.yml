@@ -88,7 +88,7 @@ jobs:
                   TAG: ${{ github.ref_name }}
               run: |
                   version=${TAG#v}
-                  for dir in auth contracts; do
+                  for dir in auth contracts ui; do
                     current=$(node -p "require('./$dir/package.json').version")
                     if [ "$current" != "$version" ]; then
                       echo "$dir is $current, not $version: skipped"

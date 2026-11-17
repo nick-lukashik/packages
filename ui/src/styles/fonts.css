@@ -1,0 +1,10 @@
+/*
+ * The two families, self-hosted from @fontsource (Latin and Cyrillic, swap):
+ * Martian Mono for text and controls, Sofia Sans Extra Condensed for titles.
+ * Import once, in the root layout: import '@nick-lukashik/ui/fonts.css'.
+ */
+@import "@fontsource/martian-mono/400.css";
+@import "@fontsource/martian-mono/500.css";
+@import "@fontsource/martian-mono/700.css";
+@import "@fontsource/sofia-sans-extra-condensed/700.css";
+@import "@fontsource/sofia-sans-extra-condensed/800.css";

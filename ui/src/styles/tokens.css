@@ -1,0 +1,57 @@
+/*
+ * Mono Brutal: black and white, square corners, 1px lines, no shadows, one
+ * colour for "live" (signal). The names are shadcn/ui's, so every component
+ * reads them as it is. Every text pair passes WCAG AA on black
+ * (src/styles/styles.test.ts checks the ratios).
+ */
+:root {
+    color-scheme: dark;
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #000000;
+    --card-foreground: #ffffff;
+    --popover: #000000;
+    --popover-foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --secondary: #141414;
+    --secondary-foreground: #ffffff;
+    --muted: #141414;
+    --muted-foreground: #a3a3a3;
+    /* Hover and the chosen item invert: white ground, black text. */
+    --accent: #ffffff;
+    --accent-foreground: #000000;
+    /* Body copy a step below white. */
+    --soft: #d6d6d6;
+    /* Lines: strong ones white, quiet ones translucent. */
+    --border: #ffffff;
+    --line: rgb(255 255 255 / 0.28);
+    --input: #ffffff;
+    --ring: #b9ff3d;
+    --signal: #b9ff3d;
+    --destructive: #ff6b6b;
+    --ok: #b9ff3d;
+    --warn: #ffc857;
+    --info: #7cc4ff;
+    --ok-soft: #172007;
+    --warn-soft: #261d07;
+    --danger-soft: #2a0e0e;
+    --info-soft: #0b1b29;
+    --chart-1: #ffffff;
+    --chart-2: #b9ff3d;
+    --chart-3: #7cc4ff;
+    --chart-4: #ffc857;
+    --chart-5: #a3a3a3;
+    --sidebar: #000000;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #ffffff;
+    --sidebar-primary-foreground: #000000;
+    --sidebar-accent: #ffffff;
+    --sidebar-accent-foreground: #000000;
+    --sidebar-border: #ffffff;
+    --sidebar-ring: #b9ff3d;
+    --radius: 0rem;
+    --font-sans: "Martian Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-display: "Sofia Sans Extra Condensed", "Arial Narrow", sans-serif;
+    --page-width: 1240px;
+}

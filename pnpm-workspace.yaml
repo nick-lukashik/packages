@@ -1,8 +1,11 @@
 packages:
     - auth
     - contracts
+    - ui
 
 # Only these dependencies may run install scripts; telemetry and optional native addons are off.
 allowBuilds:
     "@swc/core": true
     esbuild: true
+    # Tailwind CLI (the ui demo build) only watches with it; the prebuilt binary is enough.
+    "@parcel/watcher": false
