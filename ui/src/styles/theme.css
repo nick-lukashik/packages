@@ -66,10 +66,12 @@
 
 @layer base {
     * {
-        border-color: var(--border);
+        @apply border-border outline-ring/50;
     }
     html {
         -webkit-text-size-adjust: 100%;
+        /* Room for a sticky header when a link jumps to an anchor. */
+        scroll-padding-top: 4rem;
         font-family: var(--font-sans);
         background: var(--background);
     }

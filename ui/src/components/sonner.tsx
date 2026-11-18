@@ -3,11 +3,11 @@
 import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon } from 'lucide-react'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
 
-// shadcn/ui's Toaster without next-themes: the site has one light theme.
+// shadcn/ui's Toaster without next-themes: Mono Brutal is one dark theme.
 const Toaster = ({ toastOptions, ...props }: ToasterProps) => {
     return (
         <Sonner
-            theme="light"
+            theme="dark"
             className="toaster group"
             icons={{
                 success: <CircleCheckIcon className="size-4" />,
