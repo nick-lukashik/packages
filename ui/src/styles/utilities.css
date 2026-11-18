@@ -2,59 +2,36 @@
 
 /* Page width and side padding. */
 @utility wrap {
-    margin-inline: auto;
-    width: 100%;
-    max-width: var(--page-width);
-    padding-inline: 1.25rem;
-    @variant sm {
-        padding-inline: 2rem;
-    }
+    @apply mx-auto w-full max-w-(--page-width) px-5 sm:px-8;
 }
 
-/* Big condensed caps: page and section titles. */
+/*
+ * Big condensed caps: page and section titles. Through @apply, so a size
+ * class next to it (text-4xl) keeps this line height and tracking.
+ */
 @utility display {
-    font-family: var(--font-display);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: 0.005em;
-    text-transform: uppercase;
+    @apply font-display leading-[0.95] font-extrabold tracking-[0.005em] uppercase;
 }
 
 /* Small monospace caps: labels, breadcrumbs, meta lines, buttons. */
 @utility label {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    @apply font-mono text-xs font-medium tracking-[0.14em] uppercase;
 }
 
 /* The green "live" dot. */
 @utility live-dot {
-    display: inline-block;
-    width: 0.5rem;
-    height: 0.5rem;
-    flex-shrink: 0;
-    border-radius: 9999px;
-    background: var(--signal);
-    @media (prefers-reduced-motion: no-preference) {
-        animation: nl-live 2.4s ease-in-out infinite;
-    }
+    @apply inline-block size-2 shrink-0 rounded-full bg-signal motion-safe:animate-[nl-live_2.4s_ease-in-out_infinite];
 }
 
 /* A running line: put the items twice in a row inside it. */
 @utility ticker-track {
-    @media (prefers-reduced-motion: no-preference) {
-        animation: nl-ticker 40s linear infinite;
-    }
+    @apply motion-safe:animate-[nl-ticker_40s_linear_infinite];
 }
 
 /* Dashes that run along the lines of a diagram (on an SVG group of strokes). */
 @utility flow {
     stroke-dasharray: 4 6;
-    @media (prefers-reduced-motion: no-preference) {
-        animation: nl-flow 1.2s linear infinite;
-    }
+    @apply motion-safe:animate-[nl-flow_1.2s_linear_infinite];
 }
 
 /* Slides in as it scrolls into view, where the browser can tie an animation to scrolling. */

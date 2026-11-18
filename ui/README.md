@@ -13,15 +13,20 @@ The Mono Brutal kit shared by the Next.js sites (landing-web, id-web): black and
 
 ```css
 /* src/app/globals.css */
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "tw-animate-css";
-@import "@nick-lukashik/ui/fonts.css";
 @import "@nick-lukashik/ui/styles.css";
-@source "../../node_modules/@nick-lukashik/ui/dist";
+@source "..";
+@source "../../node_modules/@nick-lukashik/ui/dist/{components/{button,card},brand/*}.js";
 ```
 
+Tailwind's automatic detection stays off (`source(none)`): with it, a single kit file named in `@source` pulls in its whole folder, and every component's classes land in the CSS. Name the site's `src/` and only the kit files it renders.
+
+Fonts: `fonts.css` imports both families from Fontsource. In Next.js prefer `next/font/local` on the same Fontsource files (landing-web, `src/app/fonts.ts`): it preloads them and sizes a fallback to the real font, so nothing shifts when they load. Point `--font-sans` and `--font-display` at its variables.
+
 ```tsx
-import { Button, SectionHead } from '@nick-lukashik/ui'
+import { Button } from '@nick-lukashik/ui/button'
+import { SectionHead } from '@nick-lukashik/ui/section'
 import { RouteRoulette } from '@nick-lukashik/ui/next'
 
 <RouteRoulette

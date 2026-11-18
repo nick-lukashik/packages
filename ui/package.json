@@ -1,6 +1,6 @@
 {
     "name": "@nick-lukashik/ui",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Mono Brutal UI kit of nick-lukashik.com: tokens and Tailwind theme, shadcn/ui components restyled, brand marks, section blocks, the page roulette",
     "type": "module",
     "license": "UNLICENSED",
@@ -28,7 +28,27 @@
             "default": "./dist/next/index.js"
         },
         "./styles.css": "./dist/styles/index.css",
-        "./fonts.css": "./dist/styles/fonts.css"
+        "./fonts.css": "./dist/styles/fonts.css",
+        "./brand/*": {
+            "types": "./dist/brand/*.d.ts",
+            "default": "./dist/brand/*.js"
+        },
+        "./motion/*": {
+            "types": "./dist/motion/*.d.ts",
+            "default": "./dist/motion/*.js"
+        },
+        "./hooks/*": {
+            "types": "./dist/hooks/*.d.ts",
+            "default": "./dist/hooks/*.js"
+        },
+        "./lib/*": {
+            "types": "./dist/lib/*.d.ts",
+            "default": "./dist/lib/*.js"
+        },
+        "./*": {
+            "types": "./dist/components/*.d.ts",
+            "default": "./dist/components/*.js"
+        }
     },
     "scripts": {
         "build": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.json && node -e \"fs.cpSync('src/styles','dist/styles',{recursive:true,filter:f=>!f.endsWith('.test.ts')})\"",
